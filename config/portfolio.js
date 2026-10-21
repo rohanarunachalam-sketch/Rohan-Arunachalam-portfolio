@@ -7,10 +7,9 @@ window.PORTFOLIO = {
   name: "Rohan Arunachalam. G",
   role: "AI Developer | Generative AI | Automation",
 
-  // TODO: replace with your real email / LinkedIn URL
-  email: "your.email@example.com",
+  email: "rohanarunachalam@gmail.com",
   github: "https://github.com/rohanarunachalam-sketch",
-  linkedin: "https://www.linkedin.com/",
+  linkedin: "https://www.linkedin.com/in/rohan-arunachalam-68a25722a",
 
   // Pre-graded black & white portrait (spaces in the filename are URL-encoded as %20).
   // Other photos in /image: "Picsart_24-06-12_12-53-00-190.jpg.jpeg" (colour original),
