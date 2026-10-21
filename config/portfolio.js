@@ -5,7 +5,7 @@
  */
 window.PORTFOLIO = {
   name: "Rohan Arunachalam. G",
-  role: "AI Developer | Generative AI | Automation",
+  role: "Civil Engineer | Building with AI & Automation",
 
   email: "rohanarunachalam@gmail.com",
   github: "https://github.com/rohanarunachalam-sketch",

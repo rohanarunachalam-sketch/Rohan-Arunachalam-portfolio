@@ -104,6 +104,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .scribble-inline { font-family: var(--font-hand); font-weight: 700; font-size: 1.3rem; color: var(--lime); display: inline-block; transform: rotate(-3deg); margin-left: 12px; }
 
 .lede { font-size: 1.15rem; color: var(--ink-2); max-width: 42ch; margin: 24px 0 28px; }
+.lede--light { color: var(--on-dark-2); max-width: 60ch; margin-bottom: 0; }
 
 .btn {
   display: inline-flex;
@@ -466,8 +467,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .pile__inner span:nth-child(4n + 1) { background: var(--accent); }
 .pile__inner span:nth-child(5n + 3) { background: var(--lime); }
 .pile__inner span.is-dragging { cursor: grabbing; z-index: 5; box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.7); }
-.js .pile__inner span { translate: 0 -120vh; transition: translate 1.1s var(--bounce); transition-delay: calc(var(--i, 0) * 70ms); }
-.js .pile.in-view .pile__inner span { translate: 0 0; }
+.js .pile__inner span { translate: 0 -120vh; opacity: 0; transition: translate 1.1s var(--bounce), opacity 0.3s; transition-delay: calc(var(--i, 0) * 70ms); }
+.js .pile.in-view .pile__inner span { translate: 0 0; opacity: 1; }
 
 /* =========================================================
    Projects — showcase + carousel
