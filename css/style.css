@@ -711,6 +711,20 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
 .to-top:hover { background: var(--lime); }
 
+/* Timon the meerkat — peeks up from the bottom-left corner and watches the cursor */
+.meerkat { position: fixed; left: 18px; bottom: 0; z-index: 150; width: 90px; pointer-events: none; }
+.meerkat__btn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; transform: translateY(26px); transition: transform 0.4s var(--bounce); }
+.meerkat__btn:hover, .meerkat__btn:focus-visible { transform: translateY(8px); }
+.meerkat__btn svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 6px 14px rgba(15, 46, 51, 0.35)); }
+.js .meerkat__btn { animation: meerkat-peek 0.9s var(--bounce) 1.2s both; }
+@keyframes meerkat-peek { from { transform: translateY(110%); } }
+.mk__head { transform-box: fill-box; transform-origin: 50% 90%; transition: transform 0.25s var(--ease); }
+.mk__pupil { transition: transform 0.12s linear; }
+.mk__eye { transform-box: fill-box; transform-origin: center; transition: transform 0.08s; }
+.meerkat.is-blinking .mk__eye { transform: scaleY(0.1); }
+.meerkat__bubble { position: absolute; left: 6px; bottom: calc(100% - 14px); width: max-content; max-width: 220px; margin: 0; padding: 8px 12px; border-radius: 14px 14px 14px 4px; background: var(--card); color: var(--ink); font-family: var(--font-hand); font-weight: 700; font-size: 1rem; line-height: 1.25; box-shadow: 0 12px 28px -12px rgba(15, 46, 51, 0.5); opacity: 0; transform: translateY(6px) scale(0.9); transform-origin: bottom left; transition: opacity 0.25s, transform 0.3s var(--bounce); }
+.meerkat__bubble.is-visible { opacity: 1; transform: none; }
+
 /* =========================================================
    Scroll-driven motion
    ========================================================= */
@@ -850,4 +864,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .hero__photo { transform: none; }
   .cursor { animation: none !important; }
   .marquee__track { animation: none !important; }
+  .js .meerkat__btn { animation: none; }
+}
+@media (max-width: 480px) {
+  .meerkat { left: 10px; width: 58px; }
 }

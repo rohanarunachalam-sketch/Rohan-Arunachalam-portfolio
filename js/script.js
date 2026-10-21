@@ -461,6 +461,74 @@
     });
   }
 
+  /* ---------- Timon the meerkat: eyes and head follow the cursor ---------- */
+  function initMeerkat() {
+    var root = document.getElementById("meerkat");
+    if (!root) return;
+    var head = root.querySelector(".mk__head");
+    var pupils = root.querySelectorAll(".mk__pupil");
+    var btn = root.querySelector(".meerkat__btn");
+    var bubble = document.getElementById("meerkat-bubble");
+    var lines = [
+      "Why are you disturbing my sleep? 😴",
+      "Dei, I'm watching your mouse. Happy?",
+      "Projects are up there. Go, scroll.",
+      "Hire Rohan. Then let me sleep.",
+      "Seri seri… I'm awake. Barely."
+    ];
+    var lineIndex = 0;
+    var bubbleTimer;
+    var target = null;
+    var frame = 0;
+    var idleTimer;
+
+    function look(x, y) {
+      var r = head.getBoundingClientRect();
+      var dx = x - (r.left + r.width / 2);
+      var dy = y - (r.top + r.height / 2);
+      var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      var reach = Math.min(dist / 60, 1) * 2;
+      var px = (dx / dist) * reach;
+      var py = (dy / dist) * reach;
+      pupils.forEach(function (p) { p.style.transform = "translate(" + px + "px," + py + "px)"; });
+      var tilt = Math.max(-14, Math.min(14, dx / 40));
+      var lift = Math.max(-3, Math.min(2, dy / 120));
+      head.style.transform = "translate(" + tilt / 5 + "px," + lift + "px) rotate(" + tilt + "deg)";
+    }
+
+    function queue(x, y) {
+      target = [x, y];
+      if (!frame) frame = requestAnimationFrame(function () { frame = 0; look(target[0], target[1]); });
+    }
+
+    // With no cursor around, glance at a random spot every few seconds.
+    function idle() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () {
+        queue(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.7);
+        idle();
+      }, 3000 + Math.random() * 3000);
+    }
+
+    window.addEventListener("pointermove", function (e) { queue(e.clientX, e.clientY); idle(); }, { passive: true });
+    idle();
+
+    (function blink() {
+      setTimeout(function () {
+        root.classList.add("is-blinking");
+        setTimeout(function () { root.classList.remove("is-blinking"); blink(); }, 140);
+      }, 2500 + Math.random() * 4000);
+    })();
+
+    btn.addEventListener("click", function () {
+      bubble.textContent = lines[lineIndex];
+      lineIndex = (lineIndex + 1) % lines.length;
+      bubble.classList.add("is-visible");
+      clearTimeout(bubbleTimer);
+      bubbleTimer = setTimeout(function () { bubble.classList.remove("is-visible"); }, 3500);
+    });
+  }
+
   applyConfig();
   renderProjects();
   splitWords();
@@ -473,4 +541,5 @@
   initNav();
   initReveal();
   initForm();
+  initMeerkat();
 })();
