@@ -246,11 +246,13 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-family: var(--font-display);
   font-weight: 900;
   text-transform: uppercase;
-  font-size: clamp(3.6rem, 8.4vw, 8.6rem);
+  font-size: clamp(3.2rem, 7.4vw, 7.6rem);
   line-height: 0.86;
   letter-spacing: -0.005em;
 }
-.hero__name .word { display: block; }
+/* first name on its own line; surname and initial share the second */
+.hero__name .word { display: inline-block; }
+.hero__name .word:first-child { display: block; }
 .hero__name .word:last-child > span { color: var(--accent); }
 
 .hero__underline { width: min(560px, 92%); height: 22px; margin: 12px 0 30px; overflow: visible; }
@@ -586,12 +588,20 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .v-agents .flow { display: flex; align-items: center; gap: 8px; }
 .agent { padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--soft); color: var(--ink-2); font-size: 0.66rem; text-align: center; line-height: 1.35; }
 .flow__arrow { color: var(--ink-3); }
-.v-agents .log { position: absolute; left: 16px; bottom: 12px; color: var(--ink-3); font-size: 0.62rem; }
 .v-cad { place-items: stretch; }
 .term { border-radius: 10px; background: var(--char); padding: 12px 14px; line-height: 1.75; color: #bcd2cc; overflow: hidden; white-space: nowrap; }
 .term .p { color: var(--accent); }
 .term .s { color: var(--cream); }
 .term .ok { color: var(--lime); }
+.v-site { place-items: stretch; }
+.site { display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 12px 14px; border-radius: 10px; background: var(--char); color: var(--on-dark); }
+.site__nav { display: flex; align-items: center; gap: 6px; font-weight: 600; letter-spacing: 0.12em; font-size: 0.62rem; }
+.site__nav i { width: 18px; height: 3px; border-radius: 2px; background: rgba(243, 246, 234, 0.35); }
+.site__nav i:first-of-type { margin-left: auto; }
+.site__kicker { color: var(--lime); font-size: 0.56rem; letter-spacing: 0.14em; }
+.site__h { font-family: var(--font-display); font-weight: 900; font-size: 1.15rem; line-height: 1; text-transform: uppercase; }
+.site__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: auto; }
+.site__cards i { font-style: normal; font-size: 0.52rem; padding: 8px 4px; border-radius: 6px; text-align: center; background: rgba(243, 246, 234, 0.08); border: 1px solid rgba(217, 191, 119, 0.4); }
 
 /* =========================================================
    Experience

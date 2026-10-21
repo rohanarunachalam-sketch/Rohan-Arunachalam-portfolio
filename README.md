@@ -1,4 +1,4 @@
-# Rohan Arunachalam — Portfolio
+# Rohan Arunachalam. G — Portfolio
 
 Personal portfolio site: vanilla HTML, CSS and JavaScript. No build step and no frameworks.
 

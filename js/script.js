@@ -55,29 +55,57 @@
       '<i></i><i></i><i></i><i class="off"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i></i><i></i>' +
       '</div><span class="dash__row">Invoice <b>ready</b></span></div></div></div>',
 
-    agents:
-      '<div class="v v-agents v-mono" aria-hidden="true"><div class="flow" data-seq style="--step:120ms">' +
-      '<span class="agent">Customer<br>query</span><span class="flow__arrow">→</span>' +
-      '<span class="agent">Research<br>agent</span><span class="flow__arrow">→</span>' +
-      '<span class="agent">Support<br>agent</span></div>' +
-      '<span class="log">query + response logged</span></div>',
+    billing:
+      '<div class="v v-dairy v-mono" aria-hidden="true"><div class="dash">' +
+      '<div class="dash__panel" data-seq><span class="dash__h">INV-0042</span>' +
+      '<span class="dash__row">Taxable <b>₹12,400</b></span><span class="dash__row">CGST 9% <b>₹1,116</b></span>' +
+      '<span class="dash__row">SGST 9% <b>₹1,116</b></span><span class="dash__row">Total <b>₹14,632</b></span></div>' +
+      '<div class="dash__panel" data-seq><span class="dash__h">Dashboard</span>' +
+      '<span class="dash__row">Paid <b>18</b></span><span class="dash__row">Pending <b>4</b></span>' +
+      '<span class="dash__row">Overdue <b>1</b></span><span class="dash__row">A4 PDF <b>ready</b></span></div></div></div>',
 
-    cad:
-      '<div class="v v-cad v-mono" aria-hidden="true"><div class="term" data-seq style="--step:380ms">' +
-      '<div><span class="p">&gt;</span> <span class="s">draw a rectangle 3000 x 4500</span></div>' +
-      '<div>(command "RECTANG" \'(0 0) \'(3000 4500))</div>' +
-      '<div><span class="p">&gt;</span> <span class="s">add a 230 offset inside</span></div>' +
-      '<div>(command "OFFSET" 230 ...)</div>' +
-      '<div class="ok">executed in AutoCAD<span class="caret"></span></div></div></div>'
+    flow: function (p) {
+      var steps = (p.flow || []).map(function (step) {
+        return '<span class="agent">' + escapeHtml(step).replace(/\n/g, "<br>") + "</span>";
+      });
+      return (
+        '<div class="v v-agents v-mono" aria-hidden="true"><div class="flow" data-seq style="--step:120ms">' +
+        steps.join('<span class="flow__arrow">→</span>') + "</div></div>"
+      );
+    },
+
+    term: function (p) {
+      var lines = (p.term || []).map(function (line) {
+        if (line.indexOf("> ") === 0) return '<div><span class="p">&gt;</span> <span class="s">' + escapeHtml(line.slice(2)) + "</span></div>";
+        if (line.indexOf("✓ ") === 0) return '<div class="ok">' + escapeHtml(line) + '<span class="caret"></span></div>';
+        return "<div>" + escapeHtml(line) + "</div>";
+      });
+      return '<div class="v v-cad v-mono" aria-hidden="true"><div class="term" data-seq style="--step:380ms">' + lines.join("") + "</div></div>";
+    },
+
+    site:
+      '<div class="v v-site v-mono" aria-hidden="true"><div class="site" data-seq style="--step:140ms">' +
+      '<span class="site__nav">APEX <i></i><i></i><i></i></span>' +
+      '<span class="site__kicker">AJMAN · UAE</span>' +
+      '<b class="site__h">Engineering spaces built to perform.</b>' +
+      '<span class="site__cards"><i>Structural</i><i>Architecture</i><i>Consultancy</i></span>' +
+      "</div></div>"
   };
 
   // Card background per visual
   var gradients = {
     graph: "linear-gradient(140deg, #d9bf77, #ecdcae)",
     dairy: "linear-gradient(140deg, #639a67, #d8ebb5)",
-    agents: "linear-gradient(140deg, #d8ebb5, #f3f6ea)",
-    cad: "linear-gradient(140deg, #205d67, #639a67)"
+    billing: "linear-gradient(140deg, #d8ebb5, #d9bf77)",
+    flow: "linear-gradient(140deg, #d8ebb5, #f3f6ea)",
+    term: "linear-gradient(140deg, #205d67, #639a67)",
+    site: "linear-gradient(140deg, #d9bf77, #d8ebb5)"
   };
+
+  function renderVisual(p) {
+    var v = visuals[p.visual];
+    return typeof v === "function" ? v(p) : v || "";
+  }
 
   function linkPill(url, label, primary) {
     var icon = '<svg aria-hidden="true"><use href="#i-arrow-ne"/></svg>';
@@ -105,7 +133,7 @@
           '<article class="pcard">' +
           '<div class="pcard__visual" style="--g:' + (gradients[p.visual] || "var(--accent)") + '">' +
           '<div class="pcard__window"><div class="pcard__window-bar" aria-hidden="true"><i></i><i></i><i></i></div>' +
-          '<div class="pcard__window-body">' + (visuals[p.visual] || "") + "</div></div></div>" +
+          '<div class="pcard__window-body">' + renderVisual(p) + "</div></div></div>" +
           '<div class="pcard__top"><h3 class="pcard__title">' + escapeHtml(p.title) + "</h3>" +
           (p.tag ? '<span class="pcard__tag">' + escapeHtml(p.tag) + "</span>" : "") + "</div>" +
           '<p class="pcard__desc">' + escapeHtml(p.description) + "</p>" +
