@@ -491,8 +491,9 @@
       var px = (dx / dist) * reach;
       var py = (dy / dist) * reach;
       pupils.forEach(function (p) { p.style.transform = "translate(" + px + "px," + py + "px)"; });
-      var tilt = Math.max(-14, Math.min(14, dx / 40));
-      var lift = Math.max(-3, Math.min(2, dy / 120));
+      // scale to the viewport so the head turns just as far on a phone as on a desktop
+      var tilt = Math.max(-14, Math.min(14, (dx / (window.innerWidth * 0.6)) * 14));
+      var lift = Math.max(-3, Math.min(2, (dy / window.innerHeight) * 4));
       head.style.transform = "translate(" + tilt / 5 + "px," + lift + "px) rotate(" + tilt + "deg)";
     }
 
@@ -511,6 +512,16 @@
     }
 
     window.addEventListener("pointermove", function (e) { queue(e.clientX, e.clientY); idle(); }, { passive: true });
+    window.addEventListener("pointerdown", function (e) { queue(e.clientX, e.clientY); idle(); }, { passive: true });
+    // Phones cancel pointer events once a drag turns into a scroll; touch events keep reporting the finger.
+    function onTouch(e) {
+      var t = e.touches[0];
+      if (!t) return;
+      queue(t.clientX, t.clientY);
+      idle();
+    }
+    window.addEventListener("touchstart", onTouch, { passive: true });
+    window.addEventListener("touchmove", onTouch, { passive: true });
     idle();
 
     (function blink() {
